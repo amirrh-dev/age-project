@@ -13,28 +13,66 @@
       <div>
         <div class="div-inp">
           <label for="input">DAY</label><br />
-          <input type="text" placeholder="DD" class="input-d" />
+          <input type="text" placeholder="DD" class="input-d" id="day-inp" />
         </div>
         <div class="div-inp">
           <label for="input">MONTH</label><br />
-          <input type="text" placeholder="MM" class="input-d" />
+          <input type="text" placeholder="MM" class="input-d" id="month-inp" />
         </div>
         <div class="div-inp">
           <label for="input">YEAR</label><br />
-          <input type="text" placeholder="YYYY" class="input-d" />
+          <input type="text" placeholder="YYYY" class="input-d" id="year-inp" />
         </div>
       </div>
 
       <div class="line">
-        <hr class="inline-block">
-        <button class="age-submit"><img  class="btn-img" src="image/done.png" alt=""></button>
+        <hr class="inline-block" />
+        <button class="age-submit">
+          <img class="btn-img" src="image/done.png" alt="" onclick="setAge()" />
+        </button>
       </div>
 
       <div class="content">
-        <p class="para"><span>--</span>years</p>
-        <p class="para"><span>--</span>month</p>
-        <p class="para"><span>--</span>days</p>
+        <p class="para"><span id="years">--</span> years</p>
+        <p class="para"><span id="months">--</span> month</p>
+        <p class="para"><span id="days">--</span> days</p>
       </div>
     </div>
+
+    <script>
+      function setAge() {
+        const day = Number(document.getElementById("day-inp").value);
+        const month = Number(document.getElementById("month-inp").value);
+        const year = Number(document.getElementById("year-inp").value);
+
+        const today = new Date();
+
+        let birthDate = new Date(year, month - 1, day);
+
+        let ageYears = today.getFullYear() - birthDate.getFullYear();
+        let ageMonths = today.getMonth() - birthDate.getMonth();
+        let ageDays = today.getDate() - birthDate.getDate();
+
+        if (ageDays < 0) {
+          ageMonths--;
+          const prevMonthDays = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0,
+          ).getDate();
+
+          ageDays += prevMonthDays;
+        }
+
+        if (ageMonths < 0) {
+          ageYears--;
+          ageMonths += 12;
+        }
+
+        document.getElementById("years").textContent = ageYears;
+        document.getElementById("months").textContent = ageMonths;
+        document.getElementById("days").textContent = ageDays;
+      }
+    </script>
   </body>
 </html>
